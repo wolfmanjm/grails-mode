@@ -56,6 +56,7 @@
   (defvar anything-project-root))
 
 
+;; TODO
 (defun grails-jump-to-model ()
   "Jump to the domain model for the given context."
   (interactive)
@@ -65,6 +66,7 @@
 	)
   )
 
+;; TODO
 (defun grails-jump-to-controller ()
   "thisandthat."
   (interactive)
@@ -74,6 +76,7 @@
 	)
   )
 
+;; TODO
 (defun grails-jump-to-view ()
   "Jumps the view for the controller action we are in"
   (interactive)
@@ -93,7 +96,7 @@
 in `grails-root-file-find-process')")
 
 (defun grails-make-displayable-name (path)
-  "makes path into a displayable name. eg view-post: file, domain: file, controller: name"
+  "makes path into a displayable name. eg view(post): file, domain: file, controller: name"
   (let ((dir (file-name-directory path))
 		(name (file-name-nondirectory path)))
 	(let
@@ -120,16 +123,16 @@ in `grails-root-file-find-process')")
   (setq grails-project-root
 		(locate-dominating-file default-directory "build.xml"))
 
-  ;; get a list of al the relevant files
+  ;; get a list of all the relevant files
   (setq grails-project-files-list
 		(split-string 
 		 (shell-command-to-string (concat "find " grails-project-root "grails-app "
 										  (find-to-string
 										   `(or (name "*.groovy")
 												(name "*.gsp")))))))
+
   ;; convert the list into cons pair of (display . filepath) where
-  ;; display is type file, where type is controller, domain, view and
-  ;; file is just the file name
+  ;; display is a friendly name
   (setq grails-project-files-list-display
 		(mapcar
 		 (lambda (f)
@@ -138,7 +141,7 @@ in `grails-root-file-find-process')")
 
 ;; anything source for showing all grails project files
 (defvar anything-grails-project-files
-  '((name . "Files from Grails Project")	
+  '((name . "Files in Grails Project")	
 	(candidates . grails-project-files-list-display)
 	(match anything-c-match-on-file-name)
 	;(candidate-transformer nil)
