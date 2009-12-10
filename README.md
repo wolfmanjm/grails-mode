@@ -13,7 +13,7 @@ structure, it will load grails-mode, and define a key C-ca, which will
 display a list of all the relevant files in the grails project.
 
 By typing a pattern you can narrow it to all controllers or views or
-taglobs etc, or all the files related to "post" for instance, which
+taglibs etc, or all the files related to "post" for instance, which
 would show the PostController, all the view files related to posts the
 Post domain etc.
 
@@ -24,3 +24,13 @@ Pair this with
 [groovy-mode](http://svn.groovy.codehaus.org/browse/~raw,r=HEAD/groovy/trunk/groovy/ide/emacs/groovy-mode.el)
 and an html-mode it is a pretty good way to edit Grails stuff.
 
+TODO
+====
+
+* Maybe it would be better to have views/controllers/domains etc
+  grouped under different headings
+  
+* Implement context sensitive jumps ie in controller post action show
+  jump to show.gsp in views/post
+  
+  
