@@ -63,7 +63,7 @@
   (let (var1)
     (setq var1 'some)
     (message "jump to model at point")
-	)
+    )
   )
 
 ;; TODO
@@ -73,7 +73,7 @@
   (let (var1)
     (setq var1 'some)
     (message "jump to controller at point")
-	)
+    )
   )
 
 ;; TODO
@@ -83,7 +83,7 @@
   (let (var1)
     (setq var1 'some)
     (message "jump to view for given action")
-	)
+    )
   )
 
 ;;
@@ -98,60 +98,59 @@ in `grails-root-file-find-process')")
 (defun grails-make-displayable-name (path)
   "makes path into a displayable name. eg view(post): file, domain: file, controller: name"
   (let ((dir (file-name-directory path))
-		(name (file-name-nondirectory path)))
-	(let
-		((type (cond 
-			   ((string-match "/grails-app/views/\\([a-zA-Z0-9_]+\\)/" dir)
-				(concat "view(" (match-string 1 dir) ")"))
-			   ((string-match "/grails-app/controllers/.*/\\([a-zA-Z0-9_]+\\)Controller" dir) "controller")
-			   ((string-match "/grails-app/domain/" dir) "domain")
-			   ((string-match "/grails-app/conf/" dir) "configuration")
-			   ((string-match "/grails-app/i18n/" dir) "i18n")
-			   ((string-match "/grails-app/services/" dir) "services")
-			   ((string-match "/grails-app/taglib/" dir) "taglib")
-			   ((string-match "/grails-app/utils/" dir) "utils")
-			   ((string-match "/grails-app/\\([a-zA-Z0-9_]+\\)/" dir) (match-string 1 dir))
-			   (t "misc file"))))
-	
-	  (concat type ": " (file-name-sans-extension name)))))
+        (name (file-name-nondirectory path)))
+    (let
+        ((type (cond
+                ((string-match "/grails-app/views/\\([a-zA-Z0-9_]+\\)/" dir)
+                 (concat "view(" (match-string 1 dir) ")"))
+                ((string-match "/grails-app/controllers/.*/\\([a-zA-Z0-9_]+\\)Controller" dir) "controller")
+                ((string-match "/grails-app/domain/" dir) "domain")
+                ((string-match "/grails-app/conf/" dir) "configuration")
+                ((string-match "/grails-app/i18n/" dir) "i18n")
+                ((string-match "/grails-app/services/" dir) "services")
+                ((string-match "/grails-app/taglib/" dir) "taglib")
+                ((string-match "/grails-app/utils/" dir) "utils")
+                ((string-match "/grails-app/\\([a-zA-Z0-9_]+\\)/" dir) (match-string 1 dir))
+                (t "misc file"))))
+
+      (concat type ": " (file-name-sans-extension name)))))
 
 (defun grails-list-project-files ()
   "Returns a list of all files found under the grails project."
-
   ;; find root of project
   ;; TODO should also check for grails-app directory
   (setq grails-project-root
-		(locate-dominating-file default-directory "build.xml"))
+        (locate-dominating-file default-directory "application.properties"))
 
   ;; get a list of all the relevant files
   (setq grails-project-files-list
-		(split-string 
-		 (shell-command-to-string (concat "find " grails-project-root "grails-app "
-										  (find-to-string
-										   `(or (name "*.groovy")
-												(name "*.gsp")))))))
+        (split-string
+         (shell-command-to-string (concat "find " grails-project-root ". "
+                                          (find-to-string
+                                           `(or (name "*.groovy")
+                                                (name "*.gsp")))))))
 
   ;; convert the list into cons pair of (display . filepath) where
   ;; display is a friendly name
   (setq grails-project-files-list-display
-		(mapcar
-		 (lambda (f)
-		   (cons (grails-make-displayable-name f) f)) grails-project-files-list)))
+        (mapcar
+         (lambda (f)
+           (cons (grails-make-displayable-name f) f)) grails-project-files-list)))
 
 
 ;; anything source for showing all grails project files
 (defvar anything-grails-project-files
-  '((name . "Files in Grails Project")	
-	(candidates . grails-project-files-list-display)
-	(match anything-c-match-on-file-name)
-	;(candidate-transformer nil)
+  '((name . "Files in Grails Project")
+    (candidates . grails-project-files-list-display)
+    (match anything-c-match-on-file-name)
+                                        ;(candidate-transformer nil)
     (type . file)))
 
 
 (defun grails-show-project-files ()
   "Uses Anything to show all the project files"
   (interactive)
-  
+
   (grails-list-project-files)
 
   (anything '(anything-grails-project-files)))
@@ -162,7 +161,7 @@ in `grails-root-file-find-process')")
      With no argument, this command toggles the mode.
      Non-null prefix argument turns on the mode.
      Null prefix argument turns off the mode.
-     
+
      When Grails mode is enabled, several keys are enabled that
      will allow navigation around a typical grails project."
   ;; The initial value.
@@ -172,10 +171,10 @@ in `grails-root-file-find-process')")
   ;; The minor mode bindings.
   :keymap
   '(("\C-c/m" . grails-jump-to-model)
-	("\C-c/c" . grails-jump-to-controller)
-	("\C-c/v" . grails-jump-to-view)
-	("\C-ca" . grails-show-project-files)
-	)
+    ("\C-c/c" . grails-jump-to-controller)
+    ("\C-c/v" . grails-jump-to-view)
+    ("\C-ca" . grails-show-project-files)
+    )
   :group 'grails)
 
 (provide 'grails-mode)
